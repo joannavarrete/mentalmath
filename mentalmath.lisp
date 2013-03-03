@@ -1,6 +1,6 @@
 ;;;; co.uk.sorack.mentalmath.lisp
 
-(in-package #:co.uk.sorack.mentalmath)
+(in-package #:mentalmath)
 
 (defparameter *total-answered* 0)
 
