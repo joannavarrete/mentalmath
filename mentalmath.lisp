@@ -17,13 +17,12 @@
         (practice types))))
 
 (defun make-question (types)
-  (let ((type (pick-one-random types)))
-  (ecase type
+  (ecase (pick-one-random types)
     (sum-two-by-two (list #'+ (random-two-digits) (random-two-digits)))
     (sum-three-by-three (list #'+ (random-three-digits) (random-three-digits)))
     (sub-two-by-two (list #'- (random-two-digits) (random-two-digits)))
     (sub-three-by-three (list #'- (random-three-digits) (random-three-digits)))
-    (mult-two-by-one (list #'* (random-two-digits) (random-one-digit))))))
+    (mult-two-by-one (list #'* (random-two-digits) (random-one-digit)))))
 
 (defun get-op-from-funct (function)
   (first (cl-ppcre:all-matches-as-strings "[-+*/]" (write-to-string function))))
