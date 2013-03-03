@@ -4,20 +4,6 @@
 
 (defparameter *total-answered* 0)
 
-(defun make-question (types)
-  (let ((type (pick-one-random types)))
-  (ecase type
-    (sum-two-by-two (list #'+ (random-two-digits) (random-two-digits)))
-    (sum-three-by-three (list #'+ (random-three-digits) (random-three-digits)))
-    (sub-two-by-two (list #'- (random-two-digits) (random-two-digits)))
-    (sub-three-by-three (list #'- (random-three-digits) (random-three-digits)))
-    (mult-two-by-one (list #'* (random-two-digits) (random-one-digit))))))
-
-(defun print-question (list)
-  (let* ((op-funct (write-to-string (first list)))
-         (operator (first (cl-ppcre:all-matches-as-strings "[-+*/]" op-funct))))
-    (format t "~d ~d ~d~%" (second list) operator (third list))))
-
 (defun practice (types)
   (let ((question (make-question types)))
     (print-question question)
@@ -29,6 +15,21 @@
     (if (equal (read) 'no) 
         (format t "answered ~d~% " *total-answered*)
         (practice types))))
+
+(defun make-question (types)
+  (let ((type (pick-one-random types)))
+  (ecase type
+    (sum-two-by-two (list #'+ (random-two-digits) (random-two-digits)))
+    (sum-three-by-three (list #'+ (random-three-digits) (random-three-digits)))
+    (sub-two-by-two (list #'- (random-two-digits) (random-two-digits)))
+    (sub-three-by-three (list #'- (random-three-digits) (random-three-digits)))
+    (mult-two-by-one (list #'* (random-two-digits) (random-one-digit))))))
+
+(defun get-op-from-funct (function)
+  (first (cl-ppcre:all-matches-as-strings "[-+*/]" (write-to-string function))))
+
+(defun print-question (list)
+    (format t "~d ~d ~d~%" (second list) (get-op-from-funct (first list)) (third list)))
 
 (defun pick-one-random (list)
   (nth (random-between 0 (1- (length list))) list))
